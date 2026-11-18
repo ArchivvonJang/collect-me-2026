@@ -532,7 +532,7 @@ function edit(text){
   r.t=Date.now();
   dirty[id]=true;seq[id]=(seq[id]||0)+1;persist();
   status(apiOk?'저장 중…':'이 기기에 저장됐어요');
-  clearTimeout(timers[id]);timers[id]=setTimeout(function(){flush(id)},800);
+  clearTimeout(timers[id]);timers[id]=setTimeout(function(){flush(id)},500);
   refreshCounts();
 }
 function flush(id,retry){
@@ -574,7 +574,7 @@ function pull(){
       cache[id]={d:String(v.d||id.slice(0,4)),p:p,a:clean(v),t:t};
     });
     persist();
-    if(firstLoad||failed){firstLoad=false;failed=false;status('함께 보는 중이에요 · 몇 초마다 새로 불러와요')}
+    if(firstLoad||failed){firstLoad=false;failed=false;status('함께 보는 중이에요 · 2 초마다 새로 불러와요')}
     ready=true;refresh();refreshCounts();
   }).catch(function(){
     loading=false;failed=true;ready=true;refresh();
@@ -585,7 +585,7 @@ function connect(){
   if(!apiOk){ready=true;refresh();status('아직 구글 시트와 연결 전이에요 · 이 기기에만 저장돼요');return}
   status('친구들 기록을 불러오는 중이에요…');
   pull();
-  setInterval(function(){if(!document.hidden)pull()},6000);
+  setInterval(function(){if(!document.hidden)pull()},2000);
   document.addEventListener('visibilitychange',function(){if(!document.hidden)pull()});
 }
 
